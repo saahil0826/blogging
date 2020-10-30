@@ -9,6 +9,7 @@ var express = require("express"),
 app = express();
 var path = require("path");
 const Blog = require('./model/blog');
+const dbUrl = process.env.DATABASE_URL
 
 app.use(express.static(path.join(__dirname, "public"))); // to serve the contents of the public directory, the public dir is where css and other assets lives
 app.set("view engine", "ejs");
@@ -18,7 +19,8 @@ app.set("views", path.join(__dirname, "/views"));
 app.use(expressSanitizer()); //has to be after the app.use(bodyParser)
 
 mongoose
-  .connect("mongodb://localhost:27017/restful_blog_app", {
+  .connect(dbUrl,
+   {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
