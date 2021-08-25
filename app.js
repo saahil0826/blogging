@@ -18,6 +18,15 @@ app.use(methodOverride("_method"));
 app.set("views", path.join(__dirname, "/views"));
 app.use(expressSanitizer()); //has to be after the app.use(bodyParser)
 
+//middleware
+const verifyPassword = (req, res, next) => {
+  const { password } = req.query;
+  if (password === "blue") {
+    next();
+  }
+  res.send("you don't have access to this page soz, append the password in the query");
+};
+
 mongoose
   .connect(dbUrl,
    {
@@ -37,6 +46,7 @@ mongoose
 //   image: "https://im.vsco.co/aws-us-west-2/b63639/3119133/5eb6849d492d22201dbcff2c/vsco5eb684a04ca95.jpg?w=995&dpr=1",
 //   body: "Hello this is a blog post"
 // });
+
 
 //restful routes
 app.get("/", function(req, res) {
